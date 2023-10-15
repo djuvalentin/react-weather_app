@@ -1,6 +1,13 @@
 import styles from "./CurrentWeatherDisplay.module.css";
 import { CurrentWeather } from "../hooks/useWeather";
 import { convertWeatherCode } from "../helpers/helpers";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faLocationArrow,
+  faLocationDot,
+} from "@fortawesome/free-solid-svg-icons";
+
+const ARROW_ICON_ROTATION_OFFSET = 45;
 
 type CurrentWeatherDisplayProps = {
   city: string;
@@ -25,10 +32,19 @@ function CurrentWeatherDisplay({
   const hours = time.getHours();
   const minutes = new Date().getMinutes();
 
+  const arrowLocationStyles = {
+    transform: `rotate(${
+      currentWeather.winddirection - ARROW_ICON_ROTATION_OFFSET
+    }deg)`,
+    marginLeft: "10px",
+  };
+
   return (
     <section className={styles["current-weather"]}>
       <div>
-        <h1>📍 {city}</h1>
+        <h1>
+          <FontAwesomeIcon icon={faLocationDot} size="xs" /> {city}
+        </h1>
         <time className={styles.time}>
           <span className={styles["date-text"]}>{date}</span>
           <span className={styles["time-text"]}>{`${hours}:${minutes}`}</span>
@@ -40,7 +56,12 @@ function CurrentWeatherDisplay({
           <strong>Wind speed:</strong> {currentWeather.windspeed} km/h
         </p>
         <p>
-          <strong>Wind direction:</strong> {currentWeather.winddirection}
+          <strong>Wind direction:</strong>
+          <FontAwesomeIcon
+            style={arrowLocationStyles}
+            icon={faLocationArrow}
+            size="xl"
+          />
         </p>
         <p className={styles["temperature-text"]}>
           {currentWeather.temperature}°C
