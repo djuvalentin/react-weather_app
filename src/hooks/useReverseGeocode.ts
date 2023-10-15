@@ -29,8 +29,7 @@ export function useReverseGeocode() {
 
       const data = await res.json();
 
-      if (!data.city)
-        throw new Error(`City not found on position ${lat}, ${lng}`);
+      if (!data.city) throw new Error(`City not found`);
 
       setCity(data);
     } catch (err) {

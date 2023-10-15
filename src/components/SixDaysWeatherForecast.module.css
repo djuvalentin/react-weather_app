@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  justify-content: space-evenly;
+
+  list-style: none;
+
+  padding: 0;
+}
+
+.container > * {
+  width: 12%;
+  background-color: rgba(0, 0, 0, 0.15);
+}

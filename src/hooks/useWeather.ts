@@ -1,19 +1,25 @@
 import { useCallback, useState } from "react";
 
 const FORECAST_BASE_URL = "https://api.open-meteo.com/v1/forecast";
-// const KEY = API_KEY;
 
-// daily forecast
-// `https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&daily=weathercode,temperature_2m_max,temperature_2m_min&current_weather=true&timezone=auto`
+export type CurrentWeather = {
+  time: string;
+  temperature: number;
+  weathercode: number;
+  winddirection: number;
+  windspeed: number;
+};
 
-//4days forcast 3 hrs interval
-//https://pro.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
-// Belgrade lat: 44.81326315812103, lng: 20.461032653933152
-export type WeatherData = {
+export type DailyWeather = {
+  maxTemps: number[];
+  minTemps: number[];
   time: string[];
   weathercode: number[];
-  temperature_2m_max: number[];
-  temperature_2m_min: number[];
+};
+
+type WeatherData = {
+  currentWeather: CurrentWeather;
+  dailyWeather: DailyWeather;
 };
 
 export function useWeather() {
@@ -22,19 +28,37 @@ export function useWeather() {
   const [error, setError] = useState("");
 
   const getWeather = useCallback(async function (lat: number, lng: number) {
+    setError("");
     setIsLoading(true);
 
     try {
       const res = await fetch(
         `${FORECAST_BASE_URL}?latitude=${lat}&longitude=${lng}&daily=weathercode,temperature_2m_max,temperature_2m_min&current_weather=true&timezone=auto`
       );
+      if (!res.ok)
+        throw new Error("Connection error. Failed to fetch weather data");
       const data = await res.json();
 
-      if (data.cod === 401) throw new Error("Invalid API key");
+      const currentWeather = data["current_weather"];
+      const dailyWeather = data.daily;
 
-      setWeatherData(data.daily);
+      const weatherData = {
+        currentWeather: {
+          time: currentWeather.time,
+          temperature: currentWeather.temperature,
+          weathercode: currentWeather.weathercode,
+          winddirection: currentWeather.winddirection,
+          windspeed: currentWeather.windspeed,
+        },
+        dailyWeather: {
+          maxTemps: dailyWeather["temperature_2m_max"],
+          minTemps: dailyWeather["temperature_2m_min"],
+          time: dailyWeather.time,
+          weathercode: dailyWeather.weathercode,
+        },
+      };
 
-      console.log(data);
+      setWeatherData(weatherData);
     } catch (err) {
       if (err instanceof Error) {
         console.error(err.message);

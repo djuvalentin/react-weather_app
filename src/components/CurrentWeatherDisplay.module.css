@@ -1,0 +1,54 @@
+.current-weather {
+  display: flex;
+  justify-content: space-between;
+}
+
+.current-weather > * {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  margin: 0 5rem;
+
+  height: 200px;
+}
+
+h1 {
+  font-weight: normal;
+}
+
+.weather-details p {
+  margin-top: 0;
+}
+
+.weather-details strong {
+  font-weight: normal;
+}
+
+.time {
+  margin: 0;
+}
+
+.time > * {
+  display: block;
+}
+
+/* .date {
+  font-size: 2rem;
+}
+
+.time {
+  font-size: 3rem;
+} */
+
+.date-text {
+  font-size: 2rem;
+}
+.time-text {
+  font-size: 3rem;
+}
+.temperature-text {
+  font-size: 3rem;
+
+  margin: 0;
+}

@@ -12,9 +12,13 @@ export function useCities() {
   const [error, setError] = useState("");
 
   const getCities = useCallback(async function (name: string) {
+    setError("");
     setIsLoading(true);
     try {
       const res = await fetch(`${BASE_URL}?name=${name}&count=${NUM_RESULTS}`);
+
+      if (!res.ok) throw new Error("Connection error. Failed to fetch cities");
+
       const data = await res.json();
 
       if (data.cod === 401) throw new Error("Invalid API key");
