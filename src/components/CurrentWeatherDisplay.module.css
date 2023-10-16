@@ -1,4 +1,6 @@
 .current-weather {
+  position: relative;
+
   display: flex;
   justify-content: space-between;
 }
@@ -11,6 +13,8 @@
   margin: 0 5rem;
 
   height: 200px;
+
+  z-index: 10;
 }
 
 h1 {
@@ -32,15 +36,6 @@ h1 {
 .time > * {
   display: block;
 }
-
-/* .date {
-  font-size: 2rem;
-}
-
-.time {
-  font-size: 3rem;
-} */
-
 .date-text {
   font-size: 2rem;
 }
@@ -51,4 +46,14 @@ h1 {
   font-size: 3rem;
 
   margin: 0;
+}
+
+.weather-icon {
+  position: absolute;
+  font-size: 10rem;
+  margin-left: 45%;
+
+  z-index: 5;
+
+  text-shadow: 1px 1px 2px black;
 }

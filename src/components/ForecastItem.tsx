@@ -1,4 +1,5 @@
 import { convertWeatherCode } from "../helpers/helpers";
+import styles from "./ForecastItem.module.css";
 
 type ForecastItemProps = {
   forecastData: {
@@ -26,7 +27,7 @@ function ForecastItem({ forecastData, day }: ForecastItemProps) {
   return (
     <li>
       <p>{dayOfWeek}</p>
-      <p>{description?.icon}</p>
+      <p className={styles["weather-icon"]}>{description?.icon}</p>
       <p>{forecastData.maxTemp}°C</p>
       <p>{forecastData.minTemp}°C</p>
     </li>

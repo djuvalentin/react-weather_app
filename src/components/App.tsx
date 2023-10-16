@@ -8,6 +8,7 @@ import CurrentWeatherDisplay from "./CurrentWeatherDisplay";
 import { useWeather } from "../hooks/useWeather";
 import { useReverseGeocode } from "../hooks/useReverseGeocode";
 import WeatherForecast from "./WeatherForecast";
+import { convertWeatherCode } from "../helpers/helpers";
 
 function App() {
   const [query, setQuery] = useState("");
@@ -49,14 +50,14 @@ function App() {
     isLoadingWeather ||
     isLoadingReverseGeo;
 
-  const error =
-    errorCities || errorCurrentPosition || errorWeather || errorCity;
+  const error = errorCities || errorWeather || errorCity;
 
-  function handleGetLocation() {
-    getPosition();
-  }
+  // function handleGetLocation() {
+  //   getPosition();
+  // }
 
   useEffect(() => {
+    if (!position) return;
     getCity(position.lat, position.lng);
     getWeather(position.lat, position.lng);
   }, [position, getWeather, getCity]);
@@ -79,9 +80,31 @@ function App() {
     });
   }, [cities, setPosition]);
 
+  useEffect(() => {
+    getPosition();
+  }, [getPosition]);
+
+  // BACKGROUND COLOR
+
+  useEffect(() => {
+    console.log(weatherData?.currentWeather.weathercode);
+  }, [weatherData]);
+
+  const backgroundColorSaturation = weatherData
+    ? convertWeatherCode(weatherData?.currentWeather.weathercode)?.tone
+    : 100;
+
+  // const appStyle = {
+  //   backgroundColor: `hsl(200, ${backgroundColorSaturation}%, 70%)`,
+  // };
+
+  const appStyle = {
+    background: `radial-gradient(circle, hsl(190, ${backgroundColorSaturation}%, 50%) 22%, hsl(243, ${backgroundColorSaturation}%, 31%) 100%)`,
+  };
   return (
-    <div className="app">
-      <button onClick={handleGetLocation}>Get current location</button>
+    <div style={appStyle} className="app">
+      {/* <button onClick={handleGetLocation}>Get current location</button> */}
+      {errorCurrentPosition.length > 0 && <p>{errorCurrentPosition}</p>}
       <Form query={query} setQuery={setQuery} />
       {isLoading ? <p>LOADING...</p> : ""}
       {!isLoading && error.length > 0 ? <p>{error}</p> : ""}

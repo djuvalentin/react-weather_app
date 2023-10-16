@@ -5,6 +5,11 @@
   text-align: center;
 
   text-transform: uppercase;
+  color: white;
+  text-shadow: 1px 1px 2px purple;
+}
+.app {
+  padding: 3rem;
 }
 
 /* .logo {

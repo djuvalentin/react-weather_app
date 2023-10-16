@@ -22,15 +22,18 @@ function CurrentWeatherDisplay({
   const description = convertWeatherCode(currentWeather?.weathercode);
   const time = new Date(currentWeather?.time);
 
-  const dateFormatOptions: Intl.DateTimeFormatOptions = {
+  const date = new Intl.DateTimeFormat("en-DE", {
     month: "long",
     day: "numeric",
-  };
+  }).format(time);
 
-  const date = new Intl.DateTimeFormat("en-DE", dateFormatOptions).format(time);
+  const hours = new Intl.DateTimeFormat("en-DE", {
+    hour: "numeric",
+  }).format(time);
 
-  const hours = time.getHours();
-  const minutes = new Date().getMinutes();
+  const minutes = new Intl.DateTimeFormat("en-DE", {
+    minute: "numeric",
+  }).format(time);
 
   const arrowLocationStyles = {
     transform: `rotate(${
@@ -51,6 +54,7 @@ function CurrentWeatherDisplay({
         </time>
         <p>{description?.description}</p>
       </div>
+      <div className={styles["weather-icon"]}>{description?.icon}</div>
       <div className={styles["weather-details"]}>
         <p>
           <strong>Wind speed:</strong> {currentWeather.windspeed} km/h

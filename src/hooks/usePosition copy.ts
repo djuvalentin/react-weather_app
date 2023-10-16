@@ -1,19 +1,16 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 
 const DEFAULT_LAT = 37.76974177671057;
 const DEFAULT_LNG = -122.4579218882785;
 
-type position = {
-  lat: number;
-  lng: number;
-};
-
-export function usePosition() {
+export function usePosition(
+  defaultPosition = { lat: DEFAULT_LAT, lng: DEFAULT_LNG }
+) {
   const [isLoading, setIsLoading] = useState(false);
+  const [position, setPosition] = useState(defaultPosition);
   const [error, setError] = useState("");
-  const [position, setPosition] = useState<position | null>(null);
 
-  const getPosition = useCallback(function () {
+  function getPosition() {
     setError("");
     if (!navigator.geolocation)
       return setError("Your browser does not support geolocation");
@@ -27,12 +24,11 @@ export function usePosition() {
       },
       (error) => {
         setError(error.message);
-        setPosition({ lat: DEFAULT_LAT, lng: DEFAULT_LNG });
         console.log(error.message);
         setIsLoading(false);
       }
     );
-  }, []);
+  }
 
   return { getPosition, setPosition, isLoading, position, error };
 }

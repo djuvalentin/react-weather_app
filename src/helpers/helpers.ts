@@ -1,15 +1,21 @@
 export function convertWeatherCode(weatherCode: number) {
   const descriptions = new Map([
-    [[0], { icon: "🌞", description: "Clear sky" }],
-    [[1], { icon: "🌤️", description: "Mainly clear" }],
-    [[2], { icon: "🌥️", description: "Partly cloudy" }],
-    [[3], { icon: "☁️", description: "Overcast" }],
-    [[45, 48], { icon: "🌫", description: "Fog" }],
-    [[51, 56, 61, 66, 80], { icon: "🌧️", description: "Raining" }],
-    [[53, 55, 63, 65, 57, 67, 81, 82], { icon: "🌧️", description: "Showers" }],
-    [[71, 73, 75, 77, 85, 86], { icon: "🌨️", description: "Snowing" }],
-    [[95], { icon: "🌩", description: "Tunderstorm" }],
-    [[96, 99], { icon: "⛈️", description: "Tunderstomr with hail" }],
+    [[0], { icon: "🌞", description: "Clear sky", tone: 100 }],
+    [[1], { icon: "🌤️", description: "Mainly clear", tone: 90 }],
+    [[2], { icon: "🌥️", description: "Partly cloudy", tone: 70 }],
+    [[3], { icon: "☁️", description: "Overcast", tone: 50 }],
+    [[45, 48], { icon: "🌫", description: "Fog", tone: 45 }],
+    [[51, 56, 61, 66, 80], { icon: "🌧️", description: "Raining", tone: 40 }],
+    [
+      [53, 55, 63, 65, 57, 67, 81, 82],
+      { icon: "🌧️", description: "Showers", tone: 30 },
+    ],
+    [
+      [71, 73, 75, 77, 85, 86],
+      { icon: "🌨️", description: "Snowing", tone: 20 },
+    ],
+    [[95], { icon: "⛈️", description: "Tunderstorm", tone: 10 }],
+    [[96, 99], { icon: "🌩", description: "Tunderstomr with hail", tone: 5 }],
   ]);
 
   const matchingArray = [...descriptions.keys()].find((arr) =>
