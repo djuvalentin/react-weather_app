@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+
 import { useCities } from "../hooks/useCities";
 import { usePosition } from "../hooks/usePosition";
-import Form from "./Form";
-import SixDaysWeatherForecast from "./SixDaysWeatherForecast";
-import CurrentWeatherDisplay from "./CurrentWeatherDisplay";
 import { useWeather } from "../hooks/useWeather";
 import { useReverseGeocode } from "../hooks/useReverseGeocode";
-import WeatherForecast from "./WeatherForecast";
 import { convertWeatherCode } from "../helpers/helpers";
+
+import Form from "./Form";
+import WeatherForecast from "./WeatherForecast";
+import SixDaysWeatherForecast from "./SixDaysWeatherForecast";
+import CurrentWeatherDisplay from "./CurrentWeatherDisplay";
+import Spinner from "./Spinner";
 
 function App() {
   const [query, setQuery] = useState("");
@@ -52,10 +55,6 @@ function App() {
 
   const error = errorCities || errorWeather || errorCity;
 
-  // function handleGetLocation() {
-  //   getPosition();
-  // }
-
   useEffect(() => {
     if (!position) return;
     getCity(position.lat, position.lng);
@@ -86,27 +85,18 @@ function App() {
 
   // BACKGROUND COLOR
 
-  useEffect(() => {
-    console.log(weatherData?.currentWeather.weathercode);
-  }, [weatherData]);
-
   const backgroundColorSaturation = weatherData
     ? convertWeatherCode(weatherData?.currentWeather.weathercode)?.tone
     : 100;
-
-  // const appStyle = {
-  //   backgroundColor: `hsl(200, ${backgroundColorSaturation}%, 70%)`,
-  // };
 
   const appStyle = {
     background: `radial-gradient(circle, hsl(190, ${backgroundColorSaturation}%, 50%) 22%, hsl(243, ${backgroundColorSaturation}%, 31%) 100%)`,
   };
   return (
     <div style={appStyle} className="app">
-      {/* <button onClick={handleGetLocation}>Get current location</button> */}
       {errorCurrentPosition.length > 0 && <p>{errorCurrentPosition}</p>}
       <Form query={query} setQuery={setQuery} />
-      {isLoading ? <p>LOADING...</p> : ""}
+      {isLoading ? <Spinner /> : ""}
       {!isLoading && error.length > 0 ? <p>{error}</p> : ""}
       {!isLoading && error.length === 0 && (
         <WeatherForecast>
@@ -131,5 +121,7 @@ export default App;
 // current location) and cityCities (when searching for a city)
 //TODO:
 // add loading spinner
+// get back the button for geolocation prompt and do not request
+// geolocation permition on page load
 // add dynamic locale for time format
 // set header main footer

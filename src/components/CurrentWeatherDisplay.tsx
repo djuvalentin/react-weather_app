@@ -31,9 +31,9 @@ function CurrentWeatherDisplay({
     hour: "numeric",
   }).format(time);
 
-  const minutes = new Intl.DateTimeFormat("en-DE", {
-    minute: "numeric",
-  }).format(time);
+  const minutes = new Date().getMinutes();
+
+  console.log(minutes);
 
   const arrowLocationStyles = {
     transform: `rotate(${
@@ -50,7 +50,9 @@ function CurrentWeatherDisplay({
         </h1>
         <time className={styles.time}>
           <span className={styles["date-text"]}>{date}</span>
-          <span className={styles["time-text"]}>{`${hours}:${minutes}`}</span>
+          <span className={styles["time-text"]}>{`${hours}:${
+            minutes < 10 ? `0${minutes}` : minutes
+          }`}</span>
         </time>
         <p>{description?.description}</p>
       </div>

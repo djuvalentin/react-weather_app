@@ -1,0 +1,30 @@
+.form label {
+  position: absolute;
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+.form input {
+  background-color: transparent;
+  border: 1px solid darkgrey;
+  border-radius: 5px;
+  color: white;
+  font-size: 1rem;
+  line-height: 2rem;
+  text-align: center;
+
+  text-transform: uppercase;
+
+  /* padding-left: 1rem; */
+}
+
+.form input:focus {
+  outline: none;
+  border: 1px solid rgba(81, 203, 238, 1);
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+}
+
+.form input::placeholder {
+  color: rgb(112, 112, 112);
+  /* text-align: center; */
+  padding-left: 0;
+}

@@ -1,3 +1,5 @@
+import styles from "./Form.module.css";
+
 type FormProps = {
   query: string;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
@@ -12,9 +14,14 @@ function Form({ query, setQuery }: FormProps) {
   }
 
   return (
-    <form>
-      <label>SHOW WEATHER FOR</label>
-      <input type="text" value={query} onChange={handleChange} />
+    <form className={styles.form}>
+      <label>Search city</label>
+      <input
+        type="text"
+        value={query}
+        onChange={handleChange}
+        placeholder="Search city"
+      />
     </form>
   );
 }
