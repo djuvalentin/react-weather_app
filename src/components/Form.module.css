@@ -13,8 +13,6 @@
   text-align: center;
 
   text-transform: uppercase;
-
-  /* padding-left: 1rem; */
 }
 
 .form input:focus {
@@ -24,7 +22,6 @@
 }
 
 .form input::placeholder {
-  color: rgb(112, 112, 112);
-  /* text-align: center; */
+  color: rgba(255, 255, 255, 0.5);
   padding-left: 0;
 }

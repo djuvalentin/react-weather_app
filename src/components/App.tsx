@@ -7,11 +7,11 @@ import { useWeather } from "../hooks/useWeather";
 import { useReverseGeocode } from "../hooks/useReverseGeocode";
 import { convertWeatherCode } from "../helpers/helpers";
 
-import Form from "./Form";
 import WeatherForecast from "./WeatherForecast";
 import SixDaysWeatherForecast from "./SixDaysWeatherForecast";
 import CurrentWeatherDisplay from "./CurrentWeatherDisplay";
 import Spinner from "./Spinner";
+import SearchBar from "./SearchBar";
 
 function App() {
   const [query, setQuery] = useState("");
@@ -79,36 +79,80 @@ function App() {
     });
   }, [cities, setPosition]);
 
-  useEffect(() => {
-    getPosition();
-  }, [getPosition]);
-
   // BACKGROUND COLOR
 
-  const backgroundColorSaturation = weatherData
-    ? convertWeatherCode(weatherData?.currentWeather.weathercode)?.tone
-    : 100;
+  const hourlyDayBrightness = new Map([
+    [[21, 22, 23, 0, 1, 2, 3], 15],
+    [[9, 10, 11, 12, 13, 14, 15], 100],
+    [[16, 8], 90],
+    [[17, 7], 80],
+    [[18, 6], 55],
+    [[19, 5], 45],
+    [[20, 4], 25],
+  ]);
+
+  let backgroundSaturationCorrection = 100;
+  let backgroundBrightnessCorrection = 100;
+
+  if (weatherData) {
+    const tone = convertWeatherCode(
+      weatherData?.currentWeather.weathercode
+    )?.tone;
+
+    const localTime = new Date(weatherData?.currentWeather.time).getHours();
+
+    const matchingArray = [...hourlyDayBrightness.keys()].find((arr) =>
+      arr.includes(localTime)
+    );
+
+    const brightnessCorrection =
+      matchingArray && hourlyDayBrightness.get(matchingArray);
+
+    backgroundSaturationCorrection = tone
+      ? tone
+      : backgroundSaturationCorrection;
+
+    backgroundBrightnessCorrection = brightnessCorrection
+      ? brightnessCorrection
+      : backgroundBrightnessCorrection;
+  }
 
   const appStyle = {
-    background: `radial-gradient(circle, hsl(190, ${backgroundColorSaturation}%, 50%) 22%, hsl(243, ${backgroundColorSaturation}%, 31%) 100%)`,
+    background: `radial-gradient(circle, hsl(190, ${backgroundSaturationCorrection}%, ${
+      (50 / 100) * backgroundBrightnessCorrection
+    }%) 22%, hsl(243, ${backgroundSaturationCorrection}%, ${
+      (31 / 100) * backgroundBrightnessCorrection
+    }%) 100%)`,
   };
+
+  function handleGetPosition() {
+    getPosition();
+    setQuery("");
+  }
+
   return (
     <div style={appStyle} className="app">
       {errorCurrentPosition.length > 0 && <p>{errorCurrentPosition}</p>}
-      <Form query={query} setQuery={setQuery} />
-      {isLoading ? <Spinner /> : ""}
-      {!isLoading && error.length > 0 ? <p>{error}</p> : ""}
-      {!isLoading && error.length === 0 && (
-        <WeatherForecast>
-          <CurrentWeatherDisplay
-            city={cityName}
-            currentWeather={weatherData?.currentWeather || null}
-          />
-          <SixDaysWeatherForecast
-            dailyWeather={weatherData?.dailyWeather || null}
-          />
-        </WeatherForecast>
-      )}
+      <SearchBar
+        query={query}
+        setQuery={setQuery}
+        onGetPosition={handleGetPosition}
+      />
+      <WeatherForecast>
+        {isLoading ? <Spinner /> : ""}
+        {!isLoading && error.length > 0 ? <p>{error}</p> : ""}
+        {!isLoading && error.length === 0 && (
+          <>
+            <CurrentWeatherDisplay
+              city={cityName}
+              currentWeather={weatherData?.currentWeather || null}
+            />
+            <SixDaysWeatherForecast
+              dailyWeather={weatherData?.dailyWeather || null}
+            />
+          </>
+        )}
+      </WeatherForecast>
     </div>
   );
 }
@@ -120,8 +164,8 @@ export default App;
 // Possible solution: use different sates for cityReversGeocode (when getting
 // current location) and cityCities (when searching for a city)
 //TODO:
-// add loading spinner
-// get back the button for geolocation prompt and do not request
-// geolocation permition on page load
+// refactor code
+// style error displays
+// responsive view
 // add dynamic locale for time format
 // set header main footer

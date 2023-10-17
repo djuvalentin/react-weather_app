@@ -14,7 +14,7 @@ function Form({ query, setQuery }: FormProps) {
   }
 
   return (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
       <label>Search city</label>
       <input
         type="text"

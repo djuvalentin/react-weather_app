@@ -27,7 +27,7 @@ function ForecastItem({ forecastData, day }: ForecastItemProps) {
   return (
     <li>
       <p>{dayOfWeek}</p>
-      <p className={styles["weather-icon"]}>{description?.icon}</p>
+      <p className={styles["weather-icon"]}>{description?.dayIcon}</p>
       <p>{forecastData.maxTemp}°C</p>
       <p>{forecastData.minTemp}°C</p>
     </li>

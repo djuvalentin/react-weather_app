@@ -27,13 +27,11 @@ function CurrentWeatherDisplay({
     day: "numeric",
   }).format(time);
 
-  const hours = new Intl.DateTimeFormat("en-DE", {
-    hour: "numeric",
-  }).format(time);
+  const hours = time.getHours();
 
   const minutes = new Date().getMinutes();
 
-  console.log(minutes);
+  const partOfDay = hours > 5 && hours < 19 ? "day" : "night";
 
   const arrowLocationStyles = {
     transform: `rotate(${
@@ -50,13 +48,15 @@ function CurrentWeatherDisplay({
         </h1>
         <time className={styles.time}>
           <span className={styles["date-text"]}>{date}</span>
-          <span className={styles["time-text"]}>{`${hours}:${
-            minutes < 10 ? `0${minutes}` : minutes
-          }`}</span>
+          <span className={styles["time-text"]}>{`${
+            hours < 10 ? `0${hours}` : hours
+          }:${minutes < 10 ? `0${minutes}` : minutes}`}</span>
         </time>
         <p>{description?.description}</p>
       </div>
-      <div className={styles["weather-icon"]}>{description?.icon}</div>
+      <div className={styles["weather-icon"]}>
+        {description?.[`${partOfDay}Icon`]}
+      </div>
       <div className={styles["weather-details"]}>
         <p>
           <strong>Wind speed:</strong> {currentWeather.windspeed} km/h
