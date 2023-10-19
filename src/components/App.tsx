@@ -5,7 +5,8 @@ import { useCities } from "../hooks/useCities";
 import { usePosition } from "../hooks/usePosition";
 import { useWeather } from "../hooks/useWeather";
 import { useReverseGeocode } from "../hooks/useReverseGeocode";
-import { convertWeatherCode } from "../helpers/helpers";
+import { hoursToBrightness } from "../helpers/hoursToBrightness";
+import { convertWeatherCode } from "../helpers/convertWeatherCode";
 
 import WeatherForecast from "./WeatherForecast";
 import SixDaysWeatherForecast from "./SixDaysWeatherForecast";
@@ -81,39 +82,24 @@ function App() {
 
   // BACKGROUND COLOR
 
-  const hourlyDayBrightness = new Map([
-    [[21, 22, 23, 0, 1, 2, 3], 15],
-    [[9, 10, 11, 12, 13, 14, 15], 100],
-    [[16, 8], 90],
-    [[17, 7], 80],
-    [[18, 6], 55],
-    [[19, 5], 45],
-    [[20, 4], 25],
-  ]);
-
   let backgroundSaturationCorrection = 100;
   let backgroundBrightnessCorrection = 100;
 
   if (weatherData) {
-    const tone = convertWeatherCode(
+    const colorTone = convertWeatherCode(
       weatherData?.currentWeather.weathercode
-    )?.tone;
+    )?.colorTone;
 
-    const localTime = new Date(weatherData?.currentWeather.time).getHours();
-
-    const matchingArray = [...hourlyDayBrightness.keys()].find((arr) =>
-      arr.includes(localTime)
+    const brightness = hoursToBrightness(
+      new Date(weatherData?.currentWeather.time).getHours()
     );
 
-    const brightnessCorrection =
-      matchingArray && hourlyDayBrightness.get(matchingArray);
-
-    backgroundSaturationCorrection = tone
-      ? tone
+    backgroundSaturationCorrection = colorTone
+      ? colorTone
       : backgroundSaturationCorrection;
 
-    backgroundBrightnessCorrection = brightnessCorrection
-      ? brightnessCorrection
+    backgroundBrightnessCorrection = brightness
+      ? brightness
       : backgroundBrightnessCorrection;
   }
 

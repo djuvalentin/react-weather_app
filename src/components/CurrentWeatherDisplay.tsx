@@ -1,6 +1,6 @@
 import styles from "./CurrentWeatherDisplay.module.css";
 import { CurrentWeather } from "../hooks/useWeather";
-import { convertWeatherCode } from "../helpers/helpers";
+import { convertWeatherCode } from "../helpers/convertWeatherCode";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLocationArrow,
