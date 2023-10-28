@@ -7,10 +7,6 @@ body * {
 }
 
 #root {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
   height: 100vh;
   text-align: center;
 
@@ -21,13 +17,17 @@ body * {
 .app {
   width: 100%;
   max-width: 1200px;
-  height: 90%;
+  min-width: 375px;
+
+  height: 100%;
+  min-height: 666px;
+
+  margin: auto;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  margin: 0.5rem;
   padding: 7rem 2rem;
 
   text-shadow: 1px 1px 2px purple;
@@ -35,8 +35,6 @@ body * {
 
 @media (max-width: 770px) {
   .app {
-    height: 100%;
-    margin: 0;
     padding: 7rem 0;
   }
 }
