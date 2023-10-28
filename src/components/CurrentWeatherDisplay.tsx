@@ -61,7 +61,7 @@ function CurrentWeatherDisplay({
         <p>
           <strong>Wind speed:</strong> {currentWeather.windspeed} km/h
         </p>
-        <p>
+        <p className={styles["wind-direction"]}>
           <strong>Wind direction:</strong>
           <FontAwesomeIcon
             style={arrowLocationStyles}

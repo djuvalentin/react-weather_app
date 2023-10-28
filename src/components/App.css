@@ -32,3 +32,11 @@ body * {
 
   text-shadow: 1px 1px 2px purple;
 }
+
+@media (max-width: 770px) {
+  .app {
+    height: 100%;
+    margin: 0;
+    padding: 7rem 0;
+  }
+}
