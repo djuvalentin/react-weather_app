@@ -18,6 +18,9 @@ export type Action =
   | {
       type: "rejected";
       payload: ErrorMessage;
+    }
+  | {
+      type: "reset";
     };
 
 export type State = {

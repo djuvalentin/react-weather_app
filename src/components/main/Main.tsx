@@ -1,13 +1,13 @@
-import styles from "./WeatherForecast.module.css";
+import styles from "./Main.module.css";
 import CurrentWeatherDisplay from "./CurrentWeatherDisplay";
 import SixDaysWeatherForecast from "./SixDaysWeatherForecast";
-import { useCities } from "../hooks/useCities";
+import { useCities } from "../../hooks/useCities";
 import Spinner from "./Spinner";
-import { usePosition } from "../hooks/usePosition";
-import { useReverseGeocode } from "../hooks/useReverseGeocode";
-import { useWeather } from "../hooks/useWeather";
+import { usePosition } from "../../hooks/usePosition";
+import { useReverseGeocode } from "../../hooks/useReverseGeocode";
+import { useWeather } from "../../hooks/useWeather";
 
-function WeatherForecast() {
+function Main() {
   const { isLoading: isLoadingCities, error: errorCities } = useCities();
   const { isLoading: isLoadingPosition, error: errorPosition } = usePosition();
   const { isLoading: isLoadingReverseGeocode, error: errorReverseGeocode } =
@@ -24,17 +24,17 @@ function WeatherForecast() {
     errorCities || errorPosition || errorReverseGeocode || errorWeather;
 
   return (
-    <div className={styles.container}>
+    <main className={styles.container}>
       {isLoading ? <Spinner /> : ""}
-      {!isLoading && error ? <p>{error}</p> : ""}
+      {!isLoading && error ? <p>⚠️ {error}</p> : ""}
       {!isLoading && !error && (
         <>
           <CurrentWeatherDisplay />
           <SixDaysWeatherForecast />
         </>
       )}
-    </div>
+    </main>
   );
 }
 
-export default WeatherForecast;
+export default Main;

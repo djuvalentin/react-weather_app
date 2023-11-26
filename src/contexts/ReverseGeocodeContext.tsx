@@ -6,6 +6,7 @@ import {
   State,
 } from "../types/ReverseGeocodingContextTypes";
 import { usePosition } from "../hooks/usePosition";
+import { useCities } from "../hooks/useCities";
 
 const BASE_URL = "https://api.bigdatacloud.net/data/reverse-geocode-client";
 
@@ -35,6 +36,8 @@ function reducer(state: State, action: Action) {
       return { ...state, isLoading: false, city: action.payload };
     case "rejected":
       return { ...state, isLoading: false, error: action.payload };
+    case "reset":
+      return { ...initialState };
     default:
       throw new Error("Unknown action type");
   }
@@ -47,6 +50,7 @@ function ReverseGeocodeProvider({ children }: ContextProviderProps) {
   );
 
   const { position } = usePosition();
+  const { cities } = useCities();
 
   const getCity = useCallback(async function (lat: number, lng: number) {
     try {
@@ -61,7 +65,9 @@ function ReverseGeocodeProvider({ children }: ContextProviderProps) {
 
       if (!data.city) throw new Error(`City not found`);
 
-      dispatch({ type: "city/loaded", payload: data.city });
+      console.log(data);
+
+      dispatch({ type: "city/loaded", payload: data });
     } catch (err) {
       if (err instanceof Error) {
         dispatch({ type: "rejected", payload: err.message });
@@ -69,6 +75,10 @@ function ReverseGeocodeProvider({ children }: ContextProviderProps) {
       }
     }
   }, []);
+
+  useEffect(() => {
+    dispatch({ type: "reset" });
+  }, [cities]);
 
   useEffect(() => {
     if (!position) return;

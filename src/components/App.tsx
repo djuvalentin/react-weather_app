@@ -3,10 +3,11 @@ import "./App.css";
 import { hoursToBrightness } from "../helpers/hoursToBrightness";
 import { convertWeatherCode } from "../helpers/convertWeatherCode";
 
-import WeatherForecast from "./WeatherForecast";
-import SearchBar from "./SearchBar";
+import Main from "./main/Main";
+import Header from "./header/Header";
 import { usePosition } from "../hooks/usePosition";
 import { useWeather } from "../hooks/useWeather";
+import Footer from "./footer/Footer";
 
 function App() {
   const { weatherData } = useWeather();
@@ -46,20 +47,16 @@ function App() {
   return (
     <div style={appStyle} className="app">
       {errorPosition && <p>{errorPosition}</p>}
-      <SearchBar />
-      <WeatherForecast />
+      <Header />
+      <Main />
+      <Footer />
     </div>
   );
 }
 
 export default App;
 
-// BUG: when typing 'Kiki', the city is not found by the
-// reverse geocoding API but is found by the cities search API
-// Possible solution: use different sates for cityReversGeocode (when getting
-// current location) and cityCities (when searching for a city)
 //TODO:
 // style error displays
-// responsive view
 // add dynamic locale for time format
 // set header main footer

@@ -1,4 +1,4 @@
-import { convertWeatherCode } from "../helpers/convertWeatherCode";
+import { convertWeatherCode } from "../../helpers/convertWeatherCode";
 import styles from "./ForecastItem.module.css";
 
 type ForecastItemProps = {

@@ -1,4 +1,4 @@
-import { useWeather } from "../hooks/useWeather";
+import { useWeather } from "../../hooks/useWeather";
 import ForecastItem from "./ForecastItem";
 import styles from "./SixDaysWeatherForecast.module.css";
 

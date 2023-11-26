@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import styles from "./Form.module.css";
-import { useCities } from "../hooks/useCities";
+import styles from "./SearchBar.module.css";
+import { useCities } from "../../hooks/useCities";
 
-function Form() {
+function SearchBar() {
   const [query, setQuery] = useState("");
 
   const { getCities } = useCities();
@@ -21,7 +21,7 @@ function Form() {
   }, [getCities, query]);
 
   return (
-    <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
+    <form className={styles["search-bar"]} onSubmit={(e) => e.preventDefault()}>
       <label>Search city</label>
       <input
         type="text"
@@ -33,4 +33,4 @@ function Form() {
   );
 }
 
-export default Form;
+export default SearchBar;

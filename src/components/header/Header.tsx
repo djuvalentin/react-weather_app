@@ -1,11 +1,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
-import Form from "./Form";
 
-import styles from "./SearchBar.module.css";
-import { usePosition } from "../hooks/usePosition";
+import styles from "./Header.module.css";
+import { usePosition } from "../../hooks/usePosition";
+import SearchBar from "./SearchBar";
 
-function SearchBar() {
+function Header() {
   const { getPosition } = usePosition();
 
   function handleGetPosition() {
@@ -13,7 +13,7 @@ function SearchBar() {
   }
 
   return (
-    <div className={styles["search-bar"]}>
+    <header className={styles.header}>
       <button
         className={styles["btn-locate"]}
         aria-label="Get current position"
@@ -21,9 +21,9 @@ function SearchBar() {
       >
         <FontAwesomeIcon icon={faLocationCrosshairs} />
       </button>
-      <Form />
-    </div>
+      <SearchBar />
+    </header>
   );
 }
 
-export default SearchBar;
+export default Header;

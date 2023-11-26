@@ -1,13 +1,13 @@
 import styles from "./CurrentWeatherDisplay.module.css";
-import { convertWeatherCode } from "../helpers/convertWeatherCode";
+import { convertWeatherCode } from "../../helpers/convertWeatherCode";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLocationArrow,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
-import { useReverseGeocode } from "../hooks/useReverseGeocode";
-import { useCities } from "../hooks/useCities";
-import { useWeather } from "../hooks/useWeather";
+import { useReverseGeocode } from "../../hooks/useReverseGeocode";
+import { useCities } from "../../hooks/useCities";
+import { useWeather } from "../../hooks/useWeather";
 
 const ARROW_ICON_ROTATION_OFFSET = 45;
 
