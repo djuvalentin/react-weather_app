@@ -3,24 +3,25 @@ import { faLocationCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import Form from "./Form";
 
 import styles from "./SearchBar.module.css";
+import { usePosition } from "../hooks/usePosition";
 
-type SearchBarProps = {
-  onGetPosition: () => void;
-  query: string;
-  setQuery: React.Dispatch<React.SetStateAction<string>>;
-};
+function SearchBar() {
+  const { getPosition } = usePosition();
 
-function SearchBar({ onGetPosition, query, setQuery }: SearchBarProps) {
+  function handleGetPosition() {
+    getPosition?.();
+  }
+
   return (
     <div className={styles["search-bar"]}>
       <button
         className={styles["btn-locate"]}
         aria-label="Get current position"
-        onClick={onGetPosition}
+        onClick={handleGetPosition}
       >
         <FontAwesomeIcon icon={faLocationCrosshairs} />
       </button>
-      <Form query={query} setQuery={setQuery} />
+      <Form />
     </div>
   );
 }

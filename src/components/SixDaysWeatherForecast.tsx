@@ -1,12 +1,12 @@
+import { useWeather } from "../hooks/useWeather";
 import ForecastItem from "./ForecastItem";
 import styles from "./SixDaysWeatherForecast.module.css";
-import { DailyWeather } from "../hooks/useWeather";
 
-type SixDaysWeatherForecastProps = {
-  dailyWeather: DailyWeather | null;
-};
+function SixDaysWeatherForecast() {
+  const { weatherData } = useWeather();
 
-function SixDaysWeatherForecast({ dailyWeather }: SixDaysWeatherForecastProps) {
+  const dailyWeather = weatherData?.dailyWeather;
+
   if (!dailyWeather) return;
 
   const numDays = dailyWeather.time?.length;

@@ -1,24 +1,27 @@
 import styles from "./CurrentWeatherDisplay.module.css";
-import { CurrentWeather } from "../hooks/useWeather";
 import { convertWeatherCode } from "../helpers/convertWeatherCode";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faLocationArrow,
   faLocationDot,
 } from "@fortawesome/free-solid-svg-icons";
+import { useReverseGeocode } from "../hooks/useReverseGeocode";
+import { useCities } from "../hooks/useCities";
+import { useWeather } from "../hooks/useWeather";
 
 const ARROW_ICON_ROTATION_OFFSET = 45;
 
-type CurrentWeatherDisplayProps = {
-  city: string;
-  currentWeather: CurrentWeather | null;
-};
+function CurrentWeatherDisplay() {
+  const { city } = useReverseGeocode();
+  const { cities } = useCities();
+  const { weatherData } = useWeather();
 
-function CurrentWeatherDisplay({
-  city,
-  currentWeather,
-}: CurrentWeatherDisplayProps) {
+  const currentWeather = weatherData?.currentWeather;
+
+  const cityName = city?.city || cities?.[0]?.["name"] || "";
+
   if (!currentWeather) return;
+
   const description = convertWeatherCode(currentWeather?.weathercode);
   const time = new Date(currentWeather?.time);
 
@@ -44,7 +47,7 @@ function CurrentWeatherDisplay({
     <section className={styles["current-weather"]}>
       <div>
         <h1>
-          <FontAwesomeIcon icon={faLocationDot} size="xs" /> {city}
+          <FontAwesomeIcon icon={faLocationDot} size="xs" /> {cityName}
         </h1>
         <time className={styles.time}>
           <span className={styles["date-text"]}>{date}</span>
